@@ -1,61 +1,51 @@
-const { app, BrowserWindow, globalShortcut } = require('electron');
-const path = require('path');
-const iconPath = path.join(__dirname, 'assets', 'ai.png');
-
-
-let win;
-
-function createWindow() {
-  win = new BrowserWindow({
-    width: 450,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: true,
-      enableRemoteModule: false,
+{
+  "name": "archimedes",
+  "version": "1.0.6",
+  "description": "A lightweight Windows 11 application for using ChatGPT-4 while working.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "com.jordanbeasley.openai-chat-app",
+    "productName": "Archimedes",
+    "directories": {
+      "output": "build"
     },
-    frame: false,
-    alwaysOnTop: true,
-    transparent: true,
-    resizable: true,
-	icon: iconPath,
-  });
-
-  win.loadURL('https://chat.openai.com');
-  
-   win.webContents.on('did-finish-load', () => {
-    win.webContents.insertCSS(`
-      body {
-        -webkit-app-region: drag;
+    "win": {
+      "icon": "assets/ai.ico"
+    },
+    "mac": {
+      "icon": "assets/ai.icns"
+    },
+    "linux": {
+      "icon": "assets/ai.png"
+    },
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64",
+          "ia32"
+        ]
       }
-    `);
-  });
-}
-
-app.whenReady().then(() => {
-  createWindow();
-
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+    ],
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
     }
-  });
-
-  globalShortcut.register('Alt+W', () => {
-    if (win.isVisible()) {
-      win.hide();
-    } else {
-      win.show();
-    }
-  });
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true
+  },
+  "author": "themrbeasley",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^24.1.3"
   }
-});
-
-app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
-});
+}
