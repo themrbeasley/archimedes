@@ -1,6 +1,5 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 const path = require('path');
-const path = require('path');
 const iconPath = path.join(__dirname, 'assets', 'ai.png');
 
 
@@ -11,7 +10,7 @@ function createWindow() {
     width: 450,
     height: 800,
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       contextIsolation: true,
       enableRemoteModule: false,
     },
